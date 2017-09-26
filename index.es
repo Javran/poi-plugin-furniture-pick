@@ -17,13 +17,13 @@ const pluginDidLoad = () => {
   setTimeout(() => {
     try {
       const pState = loadPState()
-      if (!pState)
-        throw new Error('error while loading p-state')
-      const {furnitures, mstFurnitures} = pState
-      withBoundActionCreators(bac => {
-        bac.furnituresReplace(furnitures)
-        bac.mstFurnituresReplace(mstFurnitures)
-      })
+      if (pState) {
+        const {furnitures, mstFurnitures} = pState
+        withBoundActionCreators(bac => {
+          bac.furnituresReplace(furnitures)
+          bac.mstFurnituresReplace(mstFurnitures)
+        })
+      }
     } finally {
       setReady()
     }
