@@ -1,5 +1,3 @@
-import { store } from 'views/create-store'
-
 import {
   reducer,
   withBoundActionCreators,
@@ -12,7 +10,6 @@ import {
 import { setReady } from './observers/p-state-saver'
 import { loadPState } from './p-state'
 import { PickerMain as reactClass } from './ui'
-import { currentFurnituresSelector } from './selectors'
 
 const pluginDidLoad = () => {
   globalSubscribe()
@@ -25,8 +22,7 @@ const pluginDidLoad = () => {
         bac.mstFurnituresReplace(mstFurnitures)
       }
     } finally {
-      const ids = currentFurnituresSelector(store.getState())
-      ids.map((id,ind) => bac.uiPickFurniture(id,ind))
+      bac.uiPickedFurnituresReset()
       setReady()
     }
   }))

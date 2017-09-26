@@ -1,5 +1,11 @@
 import { modifyObject, modifyArray, not } from 'subtender'
+import _ from 'lodash'
 import { defaultFurnitures } from '../common'
+import {
+  currentFurnituresSelector,
+  grouppedFurnituresInfoSelector,
+  pickedFurnituresSelector,
+} from '../selectors'
 
 const initState = {
   pickedFurnitures: defaultFurnitures.map(id =>
@@ -24,10 +30,29 @@ const actionCreators = {
     actionCreators.uiModify(
       modifyObject('pickedFurnitures',modifier)
     ),
+  uiPickedFurnituresReset: () =>
+    (dispatch, getState) => {
+      const ids = currentFurnituresSelector(getState())
+      dispatch(actionCreators.uiPickedFurnituresModify(() =>
+        ids.map(id => ({id, locked: false}))))
+    },
   uiPickFurniture: (id, type) =>
     actionCreators.uiPickedFurnituresModify(
       modifyArray(type, () => ({id, locked: false}))
     ),
+  uiPickFurnitureRandomly: () =>
+    (dispatch, getState) => {
+      const state = getState()
+      const grouppedFurnituresInfo = grouppedFurnituresInfoSelector(state)
+      const pickedFurnitures = pickedFurnituresSelector(state)
+      pickedFurnitures.map(({locked},type) => {
+        if (!locked) {
+          const candidates = grouppedFurnituresInfo[type]
+          const chosen = _.sample(candidates)
+          dispatch(actionCreators.uiPickFurniture(chosen.id, type))
+        }
+      })
+    },
   uiToggleFurnitureLock: type =>
     actionCreators.uiPickedFurnituresModify(
       modifyArray(
