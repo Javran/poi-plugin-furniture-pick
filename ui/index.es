@@ -1,27 +1,26 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
+import React, { PureComponent } from 'react'
 
-import { grouppedFurnituresInfoSelector } from '../selectors'
+import { FurnitureRow } from './furniture-row'
 
-import { PTyp } from '../ptyp'
+// from 74EO 0=床, 1=壁紙, 2=窓, 3=壁掛け, 4=家具, 5=机
 
-class PickerMainImpl extends Component {
-  static propTypes = {
-    grouppedFurnituresInfo: PTyp.object.isRequired,
-  }
+const furnitureTypes = [0,1,5,2,3,4]
 
+class PickerMain extends PureComponent {
   render() {
     return (
-      <div>furniture picker</div>
+      <div>
+        {
+          furnitureTypes.map(ft => (
+            <FurnitureRow
+              key={ft}
+              type={ft}
+            />
+          ))
+        }
+      </div>
     )
   }
 }
-
-const PickerMain = connect(
-  createStructuredSelector({
-    grouppedFurnituresInfo: grouppedFurnituresInfoSelector,
-  })
-)(PickerMainImpl)
 
 export { PickerMain }

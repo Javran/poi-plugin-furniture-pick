@@ -58,8 +58,16 @@ const grouppedFurnituresInfoSelector = createSelector(
   }
 )
 
+const furnituresInfoSelectorByType = _.memoize(ty =>
+  createSelector(
+    grouppedFurnituresInfoSelector,
+    d => _.get(d,ty,[])
+  )
+)
+
 export {
   extSelector,
   currentFurnituresSelector,
   grouppedFurnituresInfoSelector,
+  furnituresInfoSelectorByType,
 }
