@@ -89,6 +89,8 @@ const getFurnitureCoordFuncSelector = createSelector(
       if (fInfo.type === null)
         return null
       const furnitureList = grouppedFurnituresInfo[fInfo.type]
+      if (!Array.isArray(furnitureList))
+        return null
       const ind = furnitureList.findIndex(x => x.id === id)
       if (ind === -1)
         return null
