@@ -24,7 +24,10 @@ const mstFurnituresSelector = createSelector(
 
 const currentFurnituresSelector = createSelector(
   basicSelector,
-  b => _.get(b,'api_furniture',[null,null,null,null,null,null])
+  b => _.get(
+    b,'api_furniture',
+    [1,38,72,102,133,164]
+  )
 )
 
 const indexedMstFurnituresSelector = createSelector(
@@ -45,7 +48,7 @@ const grouppedFurnituresInfoSelector = createSelector(
       const id = fData.api_id
       const $furniture = $furnitures[id]
       if (!$furniture)
-        return null
+        return {id}
       return {
         id,
         type: $furniture.api_type,
