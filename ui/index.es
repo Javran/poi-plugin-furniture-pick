@@ -9,7 +9,7 @@ const furnitureTypes = [1,0,5,2,3,4]
 class PickerMain extends PureComponent {
   render() {
     return (
-      <div>
+      <div style={{margin: 10}}>
         {
           furnitureTypes.map(ft => (
             <FurnitureRow
