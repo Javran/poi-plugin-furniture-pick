@@ -11,39 +11,54 @@ import FontAwesome from 'react-fontawesome'
 
 import {
   furnituresInfoSelectorByType,
-  currentFurnituresSelector,
+  pickedFurnituresSelector,
   getFurnitureInfoFuncSelector,
   getFurnitureCoordFuncSelector,
 } from '../selectors'
 import { PTyp } from '../ptyp'
 
+import { mapDispatchToProps } from '../store'
+
 class FurnitureRowImpl extends Component {
   static propTypes = {
     type: PTyp.number.isRequired,
 
-    currentFurniture: PTyp.number.isRequired,
+    pickedFurniture: PTyp.object.isRequired,
     furnitureList: PTyp.array.isRequired,
     getFurnitureInfoFunc: PTyp.func.isRequired,
     getFurnitureCoordFunc: PTyp.func.isRequired,
+    uiPickFurniture: PTyp.func.isRequired,
+    uiToggleFurnitureLock: PTyp.func.isRequired,
+  }
+
+  handleSelect = id => {
+    const {uiPickFurniture, type} = this.props
+    uiPickFurniture(id, type)
+  }
+
+  handleToggle = () => {
+    const {uiToggleFurnitureLock, type} = this.props
+    uiToggleFurnitureLock(type)
   }
 
   render() {
     const {
       furnitureList,
-      currentFurniture,
+      pickedFurniture,
       getFurnitureInfoFunc,
       getFurnitureCoordFunc,
       type,
     } = this.props
     const furniturePages = _.chunk(furnitureList,10)
-    const currentFInfo = getFurnitureInfoFunc(currentFurniture)
-    const curCoord = getFurnitureCoordFunc(currentFurniture)
+    const currentFInfo = getFurnitureInfoFunc(pickedFurniture.id)
+    const curCoord = getFurnitureCoordFunc(pickedFurniture.id)
     return (
       <div style={{display: 'flex', alignItems: 'center'}}>
         <div style={{flex: 7, marginRight: 10}}>
           <ButtonGroup justified>
             <DropdownButton
               title={currentFInfo.name}
+              onSelect={this.handleSelect}
               id={`furniture-pick-type-${type}`}>
               {
                 _.flatMap(
@@ -51,28 +66,32 @@ class FurnitureRowImpl extends Component {
                   (furniturePage, ind) => {
                     const items = furniturePage.map(x => {
                       const {id,name,description} = x
-                      const active = id === currentFurniture
-                      return description ? (
-                        <OverlayTrigger
-                          key={id}
-                          placement="left"
-                          overlay={(
-                            <Tooltip id={`furniture-pick-tooltip-${id}`}>
-                              {
-                                description.map((d,dInd) =>
-                                  <p key={_.identity(dInd)} style={{margin: 0}}>{d}</p>
-                                )
-                              }
-                            </Tooltip>
-                          )}
-                        >
-                          <MenuItem active={active}>
-                            {name}
-                          </MenuItem>
-                        </OverlayTrigger>
-                      ) : (
-                        <MenuItem key={id} active={active}>
-                          {name}
+                      const active = id === pickedFurniture.id
+
+                      return (
+                        <MenuItem
+                          eventKey={id}
+                          key={id} active={active}>
+                          {
+                            description ? (
+                              <OverlayTrigger
+                                key={id}
+                                placement="left"
+                                overlay={(
+                                  <Tooltip id={`furniture-pick-tooltip-${id}`}>
+                                    {
+                                      description.map((d,dInd) =>
+                                        <p key={_.identity(dInd)} style={{margin: 0}}>{d}</p>
+                                      )
+                                    }
+                                  </Tooltip>
+                                )}>
+                                <div>{name}</div>
+                              </OverlayTrigger>
+                            ) : (
+                              <div>{name}</div>
+                            )
+                          }
                         </MenuItem>
                       )
                     })
@@ -99,8 +118,10 @@ class FurnitureRowImpl extends Component {
             curCoord ? curCoord.join(',') : '-'
           }
         </div>
-        <Button style={{width: '4em'}}>
-          <FontAwesome name="lock" />
+        <Button
+          onClick={this.handleToggle}
+          style={{width: '4em'}}>
+          <FontAwesome name={pickedFurniture.locked ? 'lock' : 'unlock'} />
         </Button>
       </div>
     )
@@ -110,10 +131,11 @@ class FurnitureRowImpl extends Component {
 const FurnitureRow = connect(
   (state, {type}) => ({
     furnitureList: furnituresInfoSelectorByType(type)(state),
-    currentFurniture: currentFurnituresSelector(state)[type],
+    pickedFurniture: pickedFurnituresSelector(state)[type],
     getFurnitureInfoFunc: getFurnitureInfoFuncSelector(state),
     getFurnitureCoordFunc: getFurnitureCoordFuncSelector(state),
-  })
+  }),
+  mapDispatchToProps,
 )(FurnitureRowImpl)
 
 export { FurnitureRow }

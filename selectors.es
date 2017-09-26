@@ -6,6 +6,7 @@ import {
   basicSelector,
 } from 'views/utils/selectors'
 
+import { defaultFurnitures } from './common'
 import { initState } from './store'
 
 const extSelector = createSelector(
@@ -22,12 +23,19 @@ const mstFurnituresSelector = createSelector(
   ext => ext.mstFurnitures || []
 )
 
+const uiSelector = createSelector(
+  extSelector,
+  ext => ext.ui
+)
+
+const pickedFurnituresSelector = createSelector(
+  uiSelector,
+  ui => ui.pickedFurnitures
+)
+
 const currentFurnituresSelector = createSelector(
   basicSelector,
-  b => _.get(
-    b,'api_furniture',
-    [1,38,72,102,133,164]
-  )
+  b => _.get(b,'api_furniture', defaultFurnitures)
 )
 
 const indexedMstFurnituresSelector = createSelector(
@@ -97,9 +105,11 @@ const furnituresInfoSelectorByType = _.memoize(ty =>
 
 export {
   extSelector,
+  uiSelector,
   currentFurnituresSelector,
   grouppedFurnituresInfoSelector,
   furnituresInfoSelectorByType,
   getFurnitureInfoFuncSelector,
   getFurnitureCoordFuncSelector,
+  pickedFurnituresSelector,
 }

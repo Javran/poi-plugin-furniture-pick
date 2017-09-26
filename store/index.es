@@ -13,9 +13,15 @@ import {
   actionCreators as furnituresAC,
 } from './furnitures'
 
+import {
+  reducer as ui,
+  actionCreators as uiAC,
+} from './ui'
+
 const reducer = combineReducers({
   mstFurnitures,
   furnitures,
+  ui,
 })
 
 const initState = reducer(undefined, {type: '@@INIT'})
@@ -23,6 +29,7 @@ const initState = reducer(undefined, {type: '@@INIT'})
 const actionCreators = {
   ...mstFurnituresAC,
   ...furnituresAC,
+  ...uiAC,
 }
 
 const mapDispatchToProps = dispatch =>
@@ -35,6 +42,7 @@ export {
   initState,
   reducer,
 
+  mapDispatchToProps,
   actionCreators,
   withBoundActionCreators,
 }
