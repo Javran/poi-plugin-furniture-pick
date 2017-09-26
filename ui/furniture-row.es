@@ -43,36 +43,39 @@ class FurnitureRowImpl extends Component {
         <div style={{flex: 7, marginRight: 10}}>
           <ButtonGroup justified>
             <DropdownButton
-              style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
-              title={currentFInfo.description ? (
-                <OverlayTrigger
-                  placement="top"
-                  overlay={(
-                    <Tooltip id={`furniture-pick-type-${type}-tooltip`}>
-                      {
-                        currentFInfo.description.map((d,ind) =>
-                          <p key={_.identity(ind)} style={{margin: 0}}>{d}</p>
-                        )
-                      }
-                    </Tooltip>
-                  )}
-                >
-                  <div style={{marginRight: '.4em'}}>{currentFInfo.name}</div>
-                </OverlayTrigger>
-              ) : (
-                <div>{currentFInfo.name}</div>
-              )
-              }
+              title={currentFInfo.name}
               id={`furniture-pick-type-${type}`}>
               {
                 _.flatMap(
                   furniturePages,
                   (furniturePage, ind) => {
-                    const items = furniturePage.map(x => (
-                      <MenuItem key={x.id} active={x.id === currentFurniture}>
-                        {x.name}
-                      </MenuItem>
-                    ))
+                    const items = furniturePage.map(x => {
+                      const {id,name,description} = x
+                      const active = id === currentFurniture
+                      return description ? (
+                        <OverlayTrigger
+                          key={id}
+                          placement="left"
+                          overlay={(
+                            <Tooltip id={`furniture-pick-tooltip-${id}`}>
+                              {
+                                description.map((d,dInd) =>
+                                  <p key={_.identity(dInd)} style={{margin: 0}}>{d}</p>
+                                )
+                              }
+                            </Tooltip>
+                          )}
+                        >
+                          <MenuItem active={active}>
+                            {name}
+                          </MenuItem>
+                        </OverlayTrigger>
+                      ) : (
+                        <MenuItem key={id} active={active}>
+                          {name}
+                        </MenuItem>
+                      )
+                    })
                     if (ind+1 < furniturePages.length) {
                       const divider =
                         (<MenuItem divider key={`divider-${ind}`} />)
