@@ -72,6 +72,22 @@ const grouppedFurnituresInfoSelector = createSelector(
   }
 )
 
+const getFurnitureCoordFuncSelector = createSelector(
+  grouppedFurnituresInfoSelector,
+  getFurnitureInfoFuncSelector,
+  (grouppedFurnituresInfo, getFurnitureInfoFunc) =>
+    id => {
+      const fInfo = getFurnitureInfoFunc(id)
+      if (fInfo.type === null)
+        return null
+      const furnitureList = grouppedFurnituresInfo[fInfo.type]
+      const ind = furnitureList.findIndex(x => x.id === id)
+      if (ind === -1)
+        return null
+      return [Math.floor(ind/10) + 1, ind % 10 + 1]
+    }
+)
+
 const furnituresInfoSelectorByType = _.memoize(ty =>
   createSelector(
     grouppedFurnituresInfoSelector,
@@ -85,4 +101,5 @@ export {
   grouppedFurnituresInfoSelector,
   furnituresInfoSelectorByType,
   getFurnitureInfoFuncSelector,
+  getFurnitureCoordFuncSelector,
 }
