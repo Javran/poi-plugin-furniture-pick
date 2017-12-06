@@ -20,6 +20,12 @@ const pluginDidLoad = () => {
         const {furnitures, mstFurnitures} = pState
         bac.furnituresReplace(furnitures)
         bac.mstFurnituresReplace(mstFurnitures)
+
+        // change introduced in 0.1.0: now store keeps track of 'items'
+        if ('items' in pState) {
+          const {items} = pState
+          bac.itemsReplace(items)
+        }
       }
     } finally {
       bac.uiPickedFurnituresReset()

@@ -4,8 +4,8 @@ import { join } from 'path-extra'
 const $version = 'initial'
 
 const extStateToPState = extState => {
-  const {mstFurnitures, furnitures} = extState
-  return {mstFurnitures, furnitures}
+  const {mstFurnitures, furnitures, items} = extState
+  return {mstFurnitures, furnitures, items}
 }
 
 const getPStateFilePath = () => {

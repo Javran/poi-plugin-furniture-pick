@@ -20,6 +20,7 @@ import {
 
 import {
   reducer as items,
+  actionCreators as itemsAC,
 } from './items'
 
 const reducer = combineReducers({
@@ -34,6 +35,7 @@ const initState = reducer(undefined, {type: '@@INIT'})
 const actionCreators = {
   ...mstFurnituresAC,
   ...furnituresAC,
+  ...itemsAC,
   ...uiAC,
 }
 

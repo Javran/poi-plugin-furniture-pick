@@ -24,7 +24,13 @@ const useitemToModifier = rawUseitem => {
   ])
 }
 
+// TODO: Responses for: coin or box obtaining / consumption / musicbox
 const reducer = (state = initState, action) => {
+  if (action.type === '@poi-plugin-furniture-pick@Items@Replace') {
+    const {newState} = action
+    return newState
+  }
+
   if (action.type === '@@Response/kcsapi/api_port/port') {
     const fCoin = _.get(action.body, ['api_basic', 'api_fcoin'])
     if (_.isInteger(fCoin))
@@ -36,9 +42,23 @@ const reducer = (state = initState, action) => {
     return modifier(state)
   }
 
+  if (action.type === '@@Response/kcsapi/api_get_member/useitem') {
+    const modifier = useitemToModifier(action.body)
+    return modifier(state)
+  }
+
   return state
 }
 
+const actionCreators = {
+  itemsReplace: newState => ({
+    type: '@poi-plugin-furniture-pick@Items@Replace',
+    newState,
+  }),
+}
+
+
 export {
   reducer,
+  actionCreators,
 }
