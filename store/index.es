@@ -18,9 +18,14 @@ import {
   actionCreators as uiAC,
 } from './ui'
 
+import {
+  reducer as items,
+} from './items'
+
 const reducer = combineReducers({
   mstFurnitures,
   furnitures,
+  items,
   ui,
 })
 
