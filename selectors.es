@@ -13,6 +13,12 @@ const extSelector = createSelector(
   extensionSelectorFactory('poi-plugin-furniture-pick'),
   ext => _.isEmpty(ext) ? initState : ext)
 
+/*
+   because "furnitures" and "mstFurnitures" uses "null" as initial value
+   to indicate that the data is not yet ready, we'll have to fill in "[]"
+   in such case
+ */
+
 const furnituresSelector = createSelector(
   extSelector,
   ext => ext.furnitures || []
@@ -21,6 +27,11 @@ const furnituresSelector = createSelector(
 const mstFurnituresSelector = createSelector(
   extSelector,
   ext => ext.mstFurnitures || []
+)
+
+const itemsSelector = createSelector(
+  extSelector,
+  ext => ext.items
 )
 
 const uiSelector = createSelector(
@@ -107,6 +118,7 @@ const furnituresInfoSelectorByType = _.memoize(ty =>
 
 export {
   extSelector,
+  itemsSelector,
   uiSelector,
   currentFurnituresSelector,
   grouppedFurnituresInfoSelector,

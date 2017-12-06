@@ -1,0 +1,8 @@
+#poi-plugin-furniture-pick .items-view .item-icon {
+    height: 1.6em;
+    width: 1.6em;
+}
+
+.furniture-pick-pop .tooltip-inner {
+    max-width: none;
+}

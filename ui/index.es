@@ -1,9 +1,11 @@
+import { join } from 'path-extra'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { ButtonToolbar, Button } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
 import { FurnitureRow } from './furniture-row'
+import { ItemsView } from './items-view'
 import { mapDispatchToProps } from '../store'
 import { PTyp } from '../ptyp'
 
@@ -22,6 +24,10 @@ class PickerMainImpl extends PureComponent {
     } = this.props
     return (
       <div style={{margin: 10}}>
+        <link
+          rel="stylesheet"
+          href={join(__dirname, '..', 'assets', 'furniture-pick.css')}
+        />
         <ButtonToolbar style={{display: 'flex', marginBottom: 10}}>
           <Button style={{flex: 1}} onClick={uiPickedFurnituresReset}>
             <FontAwesome name="undo" />
@@ -38,6 +44,9 @@ class PickerMainImpl extends PureComponent {
             />
           ))
         }
+        <ItemsView
+          style={{marginTop: 10}}
+        />
       </div>
     )
   }

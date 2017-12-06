@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/Javran/poi-plugin-furniture-pick#readme",
   "poiPlugin": {
-    "title": "Furniture Pick",
+    "title": "Package.Title",
+    "description": "Package.Desc",
     "priority": 500,
     "icon": "random"
   },
