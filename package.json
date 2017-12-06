@@ -1,6 +1,6 @@
 {
   "name": "poi-plugin-furniture-pick",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pick furnitures randomly",
   "main": "index.es",
   "scripts": {
