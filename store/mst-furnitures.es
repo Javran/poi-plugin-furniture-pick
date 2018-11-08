@@ -4,7 +4,7 @@ const reducer = (state = null, action) => {
     return newState
   }
 
-  if (action.type === '@@Response/kcsapi/api_start2') {
+  if (action.type === '@@Response/kcsapi/api_start2/getData') {
     return action.body.api_mst_furniture
   }
   return state
