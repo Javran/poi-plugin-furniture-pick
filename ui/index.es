@@ -1,5 +1,5 @@
 import { join } from 'path-extra'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonToolbar, Button } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
@@ -11,7 +11,7 @@ import { PTyp } from '../ptyp'
 
 const furnitureTypes = [1,0,5,2,3,4]
 
-class PickerMainImpl extends PureComponent {
+class PickerMainImpl extends Component {
   static propTypes = {
     uiPickedFurnituresReset: PTyp.func.isRequired,
     uiPickFurnitureRandomly: PTyp.func.isRequired,
@@ -37,6 +37,7 @@ class PickerMainImpl extends PureComponent {
           </Button>
         </ButtonToolbar>
         {
+          // TODO: need to update this properly
           furnitureTypes.map(ft => (
             <FurnitureRow
               key={ft}

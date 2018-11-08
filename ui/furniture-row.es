@@ -49,6 +49,7 @@ class FurnitureRowImpl extends Component {
       getFurnitureCoordFunc,
       type,
     } = this.props
+
     const furniturePages = _.chunk(furnitureList,10)
     const currentFInfo = getFurnitureInfoFunc(pickedFurniture.id)
     const curCoord = getFurnitureCoordFunc(pickedFurniture.id)
