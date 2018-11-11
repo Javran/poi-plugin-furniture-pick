@@ -1,6 +1,9 @@
 /*
    this reducer keeps track of current set of furnitures selected in the game.
  */
+import _ from 'lodash'
+import { modifyObject } from 'subtender'
+
 const initState = {
   // any `null` value indicates that piece of info is unknown.
   floor: null,
@@ -19,14 +22,6 @@ const furnitureTypes = [
   /* 4 */ 'shelf',
   /* 5 */ 'desk',
 ]
-
-const rawArrayToObj = raw => {
-  const newState = {}
-  furnitureTypes.forEach((ty, ind) => {
-    newState[ty] = raw[ind]
-  })
-  return newState
-}
 
 const reducer = (state = initState, action) => {
   if (action.type === '@poi-plugin-furniture-pick@CurFurnitures@Replace') {
@@ -55,7 +50,13 @@ const reducer = (state = initState, action) => {
 
   if (action.type === "@@Response/kcsapi/api_port/port") {
     const rawArr = action.body.api_basic.api_furniture
-    return rawArrayToObj(rawArr)
+    // modify state object through modifiers.
+    // since most of api_port won't involve changing furnitures
+    // hopefully we'll end up keeping the original object
+    return _.flow(
+      // chain modifiers to try modifying each property.
+      furnitureTypes.map((ty, ind) => modifyObject(ty, () => rawArr[ind]))
+    )(state)
   }
 
   /*
