@@ -23,9 +23,16 @@ import {
   actionCreators as itemsAC,
 } from './items'
 
+import {
+  reducer as curFurnitures,
+  actionCreators as curFurnituresAC,
+} from './cur-furnitures'
+
+
 const reducer = combineReducers({
   mstFurnitures,
   furnitures,
+  curFurnitures,
   items,
   ui,
 })
@@ -35,6 +42,7 @@ const initState = reducer(undefined, {type: '@@INIT'})
 const actionCreators = {
   ...mstFurnituresAC,
   ...furnituresAC,
+  ...curFurnituresAC,
   ...itemsAC,
   ...uiAC,
 }
