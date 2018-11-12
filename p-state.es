@@ -4,6 +4,10 @@ import { join } from 'path-extra'
 const $version = 'initial'
 
 const extStateToPState = extState => {
+  // note that curFurnitures is not being stored on purpose
+  // as api_port is easily available and it's unlikely that
+  // anyone want to see furnitures during battle or before logging into
+  // the game, we are safe.
   const {mstFurnitures, furnitures, items} = extState
   return {mstFurnitures, furnitures, items}
 }

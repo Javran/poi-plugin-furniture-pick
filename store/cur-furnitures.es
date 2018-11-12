@@ -80,6 +80,7 @@ const actionCreators = {
 
 export {
   initState,
+  furnitureTypes,
   reducer,
   actionCreators,
 }
