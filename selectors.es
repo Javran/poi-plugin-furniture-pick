@@ -49,6 +49,11 @@ const currentFurnituresSelector = createSelector(
   b => _.get(b,'api_furniture', defaultFurnitures)
 )
 
+const currentFurnituresSelectorNew = createSelector(
+  extSelector,
+  ext => ext.curFurnitures
+)
+
 const indexedMstFurnituresSelector = createSelector(
   mstFurnituresSelector,
   mstFurnitures => _.keyBy(mstFurnitures,'api_id')
@@ -126,4 +131,5 @@ export {
   getFurnitureInfoFuncSelector,
   getFurnitureCoordFuncSelector,
   pickedFurnituresSelector,
+  currentFurnituresSelectorNew,
 }

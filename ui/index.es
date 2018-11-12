@@ -1,4 +1,5 @@
 import { join } from 'path-extra'
+import { createStructuredSelector } from 'reselect'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonToolbar, Button } from 'react-bootstrap'
@@ -7,12 +8,25 @@ import FontAwesome from 'react-fontawesome'
 import { FurnitureRow } from './furniture-row'
 import { ItemsView } from './items-view'
 import { mapDispatchToProps } from '../store'
+import { currentFurnituresSelectorNew } from '../selectors'
 import { PTyp } from '../ptyp'
 
 const furnitureTypes = [1,0,5,2,3,4]
 
+// furniture types following the in-game ordering
+const ordFurnitureTypes = [
+  'wallpaper',
+  'floor',
+  'desk',
+  'window',
+  'wallhanging',
+  'shelf',
+]
+
 class PickerMainImpl extends Component {
   static propTypes = {
+    curFurnitures: PTyp.object.isRequired,
+
     uiPickedFurnituresReset: PTyp.func.isRequired,
     uiPickFurnitureRandomly: PTyp.func.isRequired,
   }
@@ -21,6 +35,7 @@ class PickerMainImpl extends Component {
     const {
       uiPickedFurnituresReset,
       uiPickFurnitureRandomly,
+      curFurnitures,
     } = this.props
     return (
       <div style={{margin: 10}}>
@@ -54,7 +69,9 @@ class PickerMainImpl extends Component {
 }
 
 const PickerMain = connect(
-  null,
+  createStructuredSelector({
+    curFurnitures: currentFurnituresSelectorNew,
+  }),
   mapDispatchToProps
 )(PickerMainImpl)
 
