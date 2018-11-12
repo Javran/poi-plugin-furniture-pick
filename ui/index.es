@@ -5,13 +5,10 @@ import { connect } from 'react-redux'
 import { ButtonToolbar, Button } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
-import { FurnitureRow } from './furniture-row'
 import { ItemsView } from './items-view'
 import { mapDispatchToProps } from '../store'
 import { currentFurnituresSelectorNew } from '../selectors'
 import { PTyp } from '../ptyp'
-
-const furnitureTypes = [1,0,5,2,3,4]
 
 // furniture types following the in-game ordering
 const ordFurnitureTypes = [
@@ -52,12 +49,10 @@ class PickerMainImpl extends Component {
           </Button>
         </ButtonToolbar>
         {
-          // TODO: need to update this properly
-          furnitureTypes.map(ft => (
-            <FurnitureRow
-              key={ft}
-              type={ft}
-            />
+          ordFurnitureTypes.map(ft => (
+            <div key={ft}>
+              {ft} {curFurnitures[ft]}
+            </div>
           ))
         }
         <ItemsView
