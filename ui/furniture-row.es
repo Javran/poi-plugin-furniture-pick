@@ -31,6 +31,7 @@ class FurnitureRowImpl extends Component {
     // uiToggleFurnitureLock: PTyp.func.isRequired,
     fType: PTyp.string.isRequired,
     fId: PTyp.number,
+    fInfo: PTyp.object.isRequired,
   }
 
   static defaultProps = {
@@ -49,9 +50,10 @@ class FurnitureRowImpl extends Component {
   }
   */
   render() {
-    const {fId} = this.props
+    const {fId, fType, fInfo} = this.props
     return (
       <div
+        key={fType}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -61,7 +63,7 @@ class FurnitureRowImpl extends Component {
         <div style={{marginRight: 10, width: '25em'}}>
           <ButtonGroup justified>
             <DropdownButton
-              title={`ID: ${fId}`}>
+              title={fInfo.name}>
               <div>TODO</div>
             </DropdownButton>
           </ButtonGroup>
@@ -173,12 +175,17 @@ class FurnitureRowImpl extends Component {
 }
 
 const FurnitureRow = connect(
-  (state, {type}) => ({
-    furnitureList: furnituresInfoSelectorByType(type)(state),
-    pickedFurniture: pickedFurnituresSelector(state)[type],
-    getFurnitureInfoFunc: getFurnitureInfoFuncSelector(state),
-    getFurnitureCoordFunc: getFurnitureCoordFuncSelector(state),
-  }),
+  (state, ownProps) => {
+    const {fType, fId} = ownProps
+    const fInfo = getFurnitureInfoFuncSelector(state)(fId)
+    return {
+      fInfo,
+      // furnitureList: furnituresInfoSelectorByType(type)(state),
+      // pickedFurniture: pickedFurnituresSelector(state)[type],
+      // getFurnitureInfoFunc: getFurnitureInfoFuncSelector(state),
+      // getFurnitureCoordFunc: getFurnitureCoordFuncSelector(state),
+    }
+  },
   mapDispatchToProps,
 )(FurnitureRowImpl)
 
