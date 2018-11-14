@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { ButtonToolbar, Button } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
+import { FurnitureRow } from './furniture-row'
 import { ItemsView } from './items-view'
 import { mapDispatchToProps } from '../store'
 import { currentFurnituresSelectorNew } from '../selectors'
@@ -50,9 +51,7 @@ class PickerMainImpl extends Component {
         </ButtonToolbar>
         {
           ordFurnitureTypes.map(ft => (
-            <div key={ft}>
-              {ft} {curFurnitures[ft]}
-            </div>
+            <FurnitureRow fType={ft} fId={curFurnitures[ft]} />
           ))
         }
         <ItemsView

@@ -21,16 +21,23 @@ import { mapDispatchToProps } from '../store'
 
 class FurnitureRowImpl extends Component {
   static propTypes = {
-    type: PTyp.number.isRequired,
+    // type: PTyp.number.isRequired,
 
-    pickedFurniture: PTyp.object.isRequired,
-    furnitureList: PTyp.array.isRequired,
-    getFurnitureInfoFunc: PTyp.func.isRequired,
-    getFurnitureCoordFunc: PTyp.func.isRequired,
-    uiPickFurniture: PTyp.func.isRequired,
-    uiToggleFurnitureLock: PTyp.func.isRequired,
+    // pickedFurniture: PTyp.object.isRequired,
+    // furnitureList: PTyp.array.isRequired,
+    // getFurnitureInfoFunc: PTyp.func.isRequired,
+    // getFurnitureCoordFunc: PTyp.func.isRequired,
+    // uiPickFurniture: PTyp.func.isRequired,
+    // uiToggleFurnitureLock: PTyp.func.isRequired,
+    fType: PTyp.string.isRequired,
+    fId: PTyp.number,
   }
 
+  static defaultProps = {
+    fId: null,
+  }
+
+  /*
   handleSelect = id => {
     const {uiPickFurniture, type} = this.props
     uiPickFurniture(id, type)
@@ -40,8 +47,44 @@ class FurnitureRowImpl extends Component {
     const {uiToggleFurnitureLock, type} = this.props
     uiToggleFurnitureLock(type)
   }
-
+  */
   render() {
+    const {fId} = this.props
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}>
+        <div style={{marginRight: 10, width: '25em'}}>
+          <ButtonGroup justified>
+            <DropdownButton
+              title={`ID: ${fId}`}>
+              <div>TODO</div>
+            </DropdownButton>
+          </ButtonGroup>
+        </div>
+        <div
+          style={{
+            width: '4em',
+            marginRight: 10,
+            textAlign: 'center',
+          }}>
+          {
+            '-'
+          }
+        </div>
+        <Button
+          style={{width: '3.6em'}}>
+          <FontAwesome name="lock" />
+        </Button>
+      </div>
+    )
+  }
+
+  renderOld() {
     const {
       furnitureList,
       pickedFurniture,
