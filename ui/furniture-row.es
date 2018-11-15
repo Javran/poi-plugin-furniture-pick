@@ -1,17 +1,13 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
   ButtonGroup,
-  DropdownButton, MenuItem,
+  DropdownButton,
   Button,
-  OverlayTrigger, Tooltip,
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
 import {
-  furnituresInfoSelectorByType,
-  pickedFurnituresSelector,
   getFurnitureInfoFuncSelector,
   getFurnitureCoordFuncSelector,
 } from '../selectors'
@@ -91,107 +87,15 @@ class FurnitureRowImpl extends Component {
       </div>
     )
   }
-
-  renderOld() {
-    const {
-      furnitureList,
-      pickedFurniture,
-      getFurnitureInfoFunc,
-      getFurnitureCoordFunc,
-      type,
-    } = this.props
-
-    const furniturePages = _.chunk(furnitureList,10)
-    const currentFInfo = getFurnitureInfoFunc(pickedFurniture.id)
-    const curCoord = getFurnitureCoordFunc(pickedFurniture.id)
-    return (
-      <div style={{display: 'flex', alignItems: 'center'}}>
-        <div style={{flex: 7, marginRight: 10}}>
-          <ButtonGroup justified>
-            <DropdownButton
-              title={currentFInfo.name}
-              onSelect={this.handleSelect}
-              id={`furniture-pick-type-${type}`}>
-              {
-                _.flatMap(
-                  furniturePages,
-                  (furniturePage, ind) => {
-                    const items = furniturePage.map(x => {
-                      const {id,name,description} = x
-                      const active = id === pickedFurniture.id
-
-                      return (
-                        <MenuItem
-                          eventKey={id}
-                          key={id} active={active}>
-                          {
-                            description ? (
-                              <OverlayTrigger
-                                key={id}
-                                placement="left"
-                                overlay={(
-                                  <Tooltip id={`furniture-pick-tooltip-${id}`}>
-                                    {
-                                      description.map((d,dInd) =>
-                                        <p key={_.identity(dInd)} style={{margin: 0}}>{d}</p>
-                                      )
-                                    }
-                                  </Tooltip>
-                                )}>
-                                <div>{name}</div>
-                              </OverlayTrigger>
-                            ) : (
-                              <div>{name}</div>
-                            )
-                          }
-                        </MenuItem>
-                      )
-                    })
-                    if (ind+1 < furniturePages.length) {
-                      const divider =
-                        (<MenuItem divider key={`divider-${ind}`} />)
-                      return [...items, divider]
-                    } else {
-                      return items
-                    }
-                  }
-                )
-              }
-            </DropdownButton>
-          </ButtonGroup>
-        </div>
-        <div
-          style={{
-            width: '6em',
-            marginRight: 10,
-            textAlign: 'center',
-          }}>
-          {
-            curCoord ? curCoord.join(',') : '-'
-          }
-        </div>
-        <Button
-          onClick={this.handleToggle}
-          style={{width: '4em'}}>
-          <FontAwesome name={pickedFurniture.locked ? 'lock' : 'unlock'} />
-        </Button>
-      </div>
-    )
-  }
 }
 
 const FurnitureRow = connect(
-  (state, ownProps) => {
-    const {fType, fId} = ownProps
+  (state, {fId}) => {
     const fInfo = getFurnitureInfoFuncSelector(state)(fId)
     const coordDesc = getFurnitureCoordFuncSelector(state)(fId)
     return {
       fInfo,
       coordDesc,
-      // furnitureList: furnituresInfoSelectorByType(type)(state),
-      // pickedFurniture: pickedFurnituresSelector(state)[type],
-      // getFurnitureInfoFunc: getFurnitureInfoFuncSelector(state),
-      // getFurnitureCoordFunc: getFurnitureCoordFuncSelector(state),
     }
   },
   mapDispatchToProps,

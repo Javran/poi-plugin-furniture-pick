@@ -15,7 +15,6 @@ import { furnitureTypes } from '../store/cur-furnitures'
 // FType is short for FurnitureType
 class FTypeDropdownContentImpl extends Component {
   static propTypes = {
-    // fType: PTyp.string.isRequired,
     // an optional furniture id for highlighting the current in-game choice
     hlId: PTyp.number,
     furniturePages: PTyp.array.isRequired,
