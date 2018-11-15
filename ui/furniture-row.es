@@ -32,10 +32,12 @@ class FurnitureRowImpl extends Component {
     fType: PTyp.string.isRequired,
     fId: PTyp.number,
     fInfo: PTyp.object.isRequired,
+    coordDesc: PTyp.array,
   }
 
   static defaultProps = {
     fId: null,
+    coordDesc: null,
   }
 
   /*
@@ -50,7 +52,7 @@ class FurnitureRowImpl extends Component {
   }
   */
   render() {
-    const {fId, fType, fInfo} = this.props
+    const {fType, fInfo, coordDesc} = this.props
     return (
       <div
         key={fType}
@@ -75,7 +77,7 @@ class FurnitureRowImpl extends Component {
             textAlign: 'center',
           }}>
           {
-            '-'
+            coordDesc === null ? '-' : coordDesc.join(',')
           }
         </div>
         <Button
@@ -178,8 +180,10 @@ const FurnitureRow = connect(
   (state, ownProps) => {
     const {fType, fId} = ownProps
     const fInfo = getFurnitureInfoFuncSelector(state)(fId)
+    const coordDesc = getFurnitureCoordFuncSelector(state)(fId)
     return {
       fInfo,
+      coordDesc,
       // furnitureList: furnituresInfoSelectorByType(type)(state),
       // pickedFurniture: pickedFurnituresSelector(state)[type],
       // getFurnitureInfoFunc: getFurnitureInfoFuncSelector(state),
