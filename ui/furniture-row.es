@@ -16,8 +16,9 @@ import {
   getFurnitureCoordFuncSelector,
 } from '../selectors'
 import { PTyp } from '../ptyp'
-
 import { mapDispatchToProps } from '../store'
+
+import { FTypeDropdownContent } from './ftype-dropdown-content'
 
 class FurnitureRowImpl extends Component {
   static propTypes = {
@@ -52,7 +53,7 @@ class FurnitureRowImpl extends Component {
   }
   */
   render() {
-    const {fType, fInfo, coordDesc} = this.props
+    const {fId, fType, fInfo, coordDesc} = this.props
     return (
       <div
         key={fType}
@@ -66,7 +67,10 @@ class FurnitureRowImpl extends Component {
           <ButtonGroup justified>
             <DropdownButton
               title={fInfo.name}>
-              <div>TODO</div>
+              <FTypeDropdownContent
+                fType={fType}
+                hlId={fId}
+              />
             </DropdownButton>
           </ButtonGroup>
         </div>
